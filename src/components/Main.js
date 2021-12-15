@@ -3,7 +3,7 @@ import { api } from "../utils/api";
 import Profile from "./Profile";
 import Card from "./Card";
 
-const Main = ({ onEditProfile, onAddPlaceClick, onAvatarEditClick }) => {
+const Main = ({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) => {
     const [userName, setUserName] = useState('');
     const [userDescription, setUserDescription] = useState('');
     const [userAvatar, setUserAvatar] = useState('');
@@ -25,13 +25,12 @@ const Main = ({ onEditProfile, onAddPlaceClick, onAvatarEditClick }) => {
 
     return (
         <main>
-            <Profile avatar={userAvatar} name={userName} about={userDescription} onEditClick={onEditProfile} onAddClick={onAddPlaceClick} onAvatarEditClick={onAvatarEditClick} />
+            <Profile avatar={userAvatar} name={userName} about={userDescription} onEditProfile={onEditProfile} onAddPlace={onAddPlace} onEditAvatar={onEditAvatar} />
             <section className="gallery">
-                {cards.map((item) => {
-                    return <Card name={item.name} link={item.link} likes={item.likes.length}/>
+                {cards.map((item, index) => {
+                    return <Card key={index} card={item} onCardClick={onCardClick}/>
                 })}
             </section>
-
         </main>
     )
 }
