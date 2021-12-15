@@ -1,6 +1,8 @@
 const PopupWithForm = ({ name, title, isOpen, onClose, children }) => {
+    const className = `popup ${isOpen ? 'popup_visibility_visible' : ''}`;
+
     return (
-        <div className={`popup popup_type_${name} ${isOpen ? 'popup_visibility_visible' : ''}`}>
+        <div className={className}>
             <div className="popup__background" onClick={onClose}></div>
             <div className="popup__body">
                 <h3 className="popup__text">{title}</h3>

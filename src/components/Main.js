@@ -11,24 +11,24 @@ const Main = ({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) => {
 
     useEffect(() => {
         Promise.all([api.getUserInfo(), api.getInitialCards()])
-            .then((data) => {
-                const {name, about, avatar} = data[0];
+            .then(([userData, cardsData]) => {
+                const {name, about, avatar} = userData;
                 setUserName(name);
                 setUserDescription(about);
                 setUserAvatar(avatar);
-                setCards(data[1]);
+                setCards(cardsData);
             })
             .catch((error) => {
                 console.log(error);
             });
-    });
+    }, []);
 
     return (
         <main>
             <Profile avatar={userAvatar} name={userName} about={userDescription} onEditProfile={onEditProfile} onAddPlace={onAddPlace} onEditAvatar={onEditAvatar} />
             <section className="gallery">
-                {cards.map((item, index) => {
-                    return <Card key={index} card={item} onCardClick={onCardClick}/>
+                {cards.map((item) => {
+                    return <Card key={item._id} card={item} onCardClick={onCardClick}/>
                 })}
             </section>
         </main>

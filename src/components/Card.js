@@ -1,9 +1,11 @@
 const Card = ({card, onCardClick}) => {
+    function handleClick () {
+        onCardClick(card)
+    }
+    
     return (
         <div className="gallery__item card">
-            <img className="card__image" src={card.link} alt={card.name} onClick={() => {
-                onCardClick(card)
-            }} />
+            <img className="card__image" src={card.link} alt={card.name} onClick={handleClick} />
             <div className="card__section">
                 <h4 className="card__text">{card.name}</h4>
                 <div className="card__likes">

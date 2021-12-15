@@ -1,35 +1,46 @@
-import { useEffect, useState } from "react";
-import Footer from "./components/Footer";
-import Header from "./components/Header";
-import ImagePopup from "./components/ImagePopup";
-import Main from "./components/Main";
-import PopupWithForm from "./components/PopupWithForm";
+import { useState } from "react";
+import Footer from "./Footer";
+import Header from "./Header";
+import ImagePopup from "./ImagePopup";
+import Main from "./Main";
+import PopupWithForm from "./PopupWithForm";
 
 function App() {
-  useEffect(() => {
-    document.querySelector('body').classList.add('page');
-  });
-
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isPlacePopupOpen, setIsPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
-  const [selectedCard, setSelectedCard] = useState(undefined);
+  const [selectedCard, setSelectedCard] = useState(null);
 
   function closeAllPopups() {
     setIsEditProfilePopupOpen(false);
     setIsPlacePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
-    setSelectedCard(undefined);
+    setSelectedCard(null);
+  }
+
+  function onEditProfile() {
+    setIsEditProfilePopupOpen(true)
+  }
+
+  function onAddPlace() {
+    setIsPlacePopupOpen(true)
+  }
+  
+  function onEditAvatar() {
+    setIsEditAvatarPopupOpen(true)
+  }
+  function onCardClick(card) {
+    setSelectedCard(card)
   }
 
   return (
     <div className="page__content">
       <Header />
       <Main
-        onEditProfile={() => setIsEditProfilePopupOpen(true)}
-        onAddPlace={() => setIsPlacePopupOpen(true)}
-        onEditAvatar={() => setIsEditAvatarPopupOpen(true)}
-        onCardClick={(card) => setSelectedCard(card)}
+        onEditProfile={onEditProfile}
+        onAddPlace={onAddPlace}
+        onEditAvatar={onEditAvatar}
+        onCardClick={onCardClick}
         />
       <Footer />
 
