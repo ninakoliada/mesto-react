@@ -3,7 +3,7 @@ import { UserContext } from "../contexts/CurrentUserContext";
 
 import PopupWithForm from './PopupWithForm';
 
-export default ({ isOpen, onClose, onUpdateUser }) => {
+const EditProfilePopup = ({ isOpen, onClose, onUpdateUser }) => {
     const currentUser = useContext(UserContext);
 
     const [name, setName] = useState('');
@@ -41,3 +41,5 @@ export default ({ isOpen, onClose, onUpdateUser }) => {
         </PopupWithForm>
     )
 }
+
+export default EditProfilePopup;
