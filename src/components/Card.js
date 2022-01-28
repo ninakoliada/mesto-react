@@ -1,11 +1,19 @@
 import { useContext } from "react";
 import { UserContext } from "../contexts/CurrentUserContext";
 
-const Card = ({card, onCardClick}) => {
+const Card = ({card, onCardClick, onCardLike, onCardDelete }) => {
     const currentUser = useContext(UserContext);
 
     function handleClick () {
         onCardClick(card)
+    }
+
+    function handleLikeClick() {
+        onCardLike(card)
+    }
+
+    function handleDeleteClick() {
+        onCardDelete(card)
     }
     
     const isOwn = card.owner._id === currentUser._id;
@@ -22,11 +30,11 @@ const Card = ({card, onCardClick}) => {
             <div className="card__section">
                 <h4 className="card__text">{card.name}</h4>
                 <div className="card__likes">
-                    <button type="button" className={cardLikeButtonClassName}></button>
+                    <button type="button" className={cardLikeButtonClassName} onClick={handleLikeClick} ></button>
                     <span className="card__likes-count">{card.likes.length}</span>
                 </div>
             </div>
-            <button type="button" className={cardDeleteButtonClassName}></button>
+            <button type="button" className={cardDeleteButtonClassName} onClick={handleDeleteClick}></button>
         </div>
     )
 }

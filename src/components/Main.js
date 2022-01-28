@@ -6,7 +6,7 @@ import { UserContext } from "../contexts/CurrentUserContext";
 
 const Main = ({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) => {
     const [cards, setCards] = useState([]);
-    const { name, avatar, about } = useContext(UserContext);
+    const currentUser = useContext(UserContext);
 
     useEffect(() => {
         api.getInitialCards()
@@ -18,12 +18,26 @@ const Main = ({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) => {
             });
     }, []);
 
+    function handleCardLike(card) {
+        const isLiked = card.likes.some(i => i._id === currentUser._id);
+
+        api.changeLikeCardStatus(card._id, !isLiked).then((newCard) => {
+            setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+        });
+    }
+
+    function handleCardDelete(card) {
+        api.deleteCard(card._id).then(() => {
+            setCards((state) => state.filter((c) => c._id !== card._id))
+        })
+    }
+
     return (
         <main>
-            <Profile avatar={avatar} name={name} about={about} onEditProfile={onEditProfile} onAddPlace={onAddPlace} onEditAvatar={onEditAvatar} />
+            <Profile avatar={currentUser.avatar} name={currentUser.name} about={currentUser.about} onEditProfile={onEditProfile} onAddPlace={onAddPlace} onEditAvatar={onEditAvatar} />
             <section className="gallery">
                 {cards.map((item) => {
-                    return <Card key={item._id} card={item} onCardClick={onCardClick}/>
+                    return <Card key={item._id} card={item} onCardClick={onCardClick} onCardLike={handleCardLike} onCardDelete={handleCardDelete} />
                 })}
             </section>
         </main>

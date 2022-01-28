@@ -61,6 +61,14 @@ class Api {
     }).then(this._parseResponse);
   }
 
+  changeLikeCardStatus(cardId, value) {
+    if (value) {
+      return this.addLike(cardId);
+    } else {
+      return this.deleteLike(cardId);
+    }
+  }
+  
   addLike = (cardId) => {
     return fetch(this._baseUrl + '/cards/likes/' + cardId, {
       method: 'PUT',
