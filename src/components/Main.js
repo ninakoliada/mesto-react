@@ -1,34 +1,17 @@
-import { useEffect, useState } from "react";
-import { api } from "../utils/api";
+import { useContext } from "react";
 import Profile from "./Profile";
 import Card from "./Card";
+import { UserContext } from "../contexts/CurrentUserContext";
 
-const Main = ({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) => {
-    const [userName, setUserName] = useState('');
-    const [userDescription, setUserDescription] = useState('');
-    const [userAvatar, setUserAvatar] = useState('');
-    const [cards, setCards] = useState([])
-
-    useEffect(() => {
-        Promise.all([api.getUserInfo(), api.getInitialCards()])
-            .then(([userData, cardsData]) => {
-                const {name, about, avatar} = userData;
-                setUserName(name);
-                setUserDescription(about);
-                setUserAvatar(avatar);
-                setCards(cardsData);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    }, []);
+const Main = ({ cards, onEditProfile, onAddPlace, onEditAvatar, onCardClick, onCardLike, onCardDelete }) => {
+    const currentUser = useContext(UserContext);
 
     return (
         <main>
-            <Profile avatar={userAvatar} name={userName} about={userDescription} onEditProfile={onEditProfile} onAddPlace={onAddPlace} onEditAvatar={onEditAvatar} />
+            <Profile avatar={currentUser.avatar} name={currentUser.name} about={currentUser.about} onEditProfile={onEditProfile} onAddPlace={onAddPlace} onEditAvatar={onEditAvatar} />
             <section className="gallery">
                 {cards.map((item) => {
-                    return <Card key={item._id} card={item} onCardClick={onCardClick}/>
+                    return <Card key={item._id} card={item} onCardClick={onCardClick} onCardLike={onCardLike} onCardDelete={onCardDelete} />
                 })}
             </section>
         </main>
