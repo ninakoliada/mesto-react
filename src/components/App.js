@@ -7,6 +7,7 @@ import Header from "./Header";
 import ImagePopup from "./ImagePopup";
 import Main from "./Main";
 import PopupWithForm from "./PopupWithForm";
+import EditProfilePopup from "./EditProfilePopup";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -47,6 +48,16 @@ function App() {
     setSelectedCard(card)
   }
 
+  function handleUpdateUser(userData) {
+    api.editUserInfo(userData)
+      .then((newUserData) => {
+        setCurrentUser(newUserData);
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }
+
   return (
     <div className="page__content">
       <UserContext.Provider value={currentUser}>
@@ -59,16 +70,7 @@ function App() {
           />
         <Footer />
 
-        <PopupWithForm isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} title="Редактировать профиль" name="profile">
-          <label className="popup__form-field">
-            <input id="user-name" name="name" className="popup__input popup__input_type_name" type="text" placeholder="ФИО" required minLength="2" maxLength="40" />
-            <span className="popup__error user-name-error"></span>
-          </label>
-          <label className="popup__form-field">
-            <input id="user-about" name="about" className="popup__input popup__input_type_about" type="text" placeholder="Род занятий" required minLength="2" maxLength="200" />
-            <span className="popup__error user-about-error"></span>
-          </label>
-        </PopupWithForm>
+        <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
 
         <PopupWithForm isOpen={isPlacePopupOpen} onClose={closeAllPopups} title="Новое место" name="place">
           <label className="popup__form-field">
