@@ -26,16 +26,16 @@ const EditProfilePopup = ({ isOpen, onClose, onUpdateUser }) => {
     useEffect(() => {
         setName(currentUser.name);
         setAbout(currentUser.about);
-    }, [currentUser]);
+    }, [currentUser, isOpen]);
 
     return (
-        <PopupWithForm isOpen={isOpen} onClose={onClose} onSubmit={handleSubmit} title="Редактировать профиль" name="profile">
+        <PopupWithForm isOpen={isOpen} onClose={onClose} onSubmit={handleSubmit} title="Редактировать профиль" name="profile" buttonText="Сохранить">
           <label className="popup__form-field">
-            <input value={name} onChange={onChange} id="user-name" name="name" className="popup__input popup__input_type_name" type="text" placeholder="ФИО" required minLength="2" maxLength="40" />
+            <input value={name || ''} onChange={onChange} id="user-name" name="name" className="popup__input popup__input_type_name" type="text" placeholder="ФИО" required minLength="2" maxLength="40" />
             <span className="popup__error user-name-error"></span>
           </label>
           <label className="popup__form-field">
-            <input value={about} onChange={onChange} id="user-about" name="about" className="popup__input popup__input_type_about" type="text" placeholder="Род занятий" required minLength="2" maxLength="200" />
+            <input value={about || ''} onChange={onChange} id="user-about" name="about" className="popup__input popup__input_type_about" type="text" placeholder="Род занятий" required minLength="2" maxLength="200" />
             <span className="popup__error user-about-error"></span>
           </label>
         </PopupWithForm>
